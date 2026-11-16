@@ -1,0 +1,67 @@
+---
+layout: runbook
+title: '#4471 · three problems, not one'
+owner: Tyler Barstow
+status: open
+reviewed: 2026-11-16
+signature: Tyler Barstow
+---
+
+<script>
+  import ProblemTable from '#lib/kb/ProblemTable.svelte';
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+
+  const repo = 'https://github.com/futuretyler/mega-kb-test/issues';
+  const issues = { parser: `${repo}/1`, hint: `${repo}/2`, 'one-day': `${repo}/3` };
+</script>
+
+[#4471](/kb/incidents/4471) says one issue: the parser reads dates month first. The reports say
+three. They were merged by subject line ([decision 0001](/kb/decisions/0001-dedupe-by-subject)),
+and the subject does not tell one problem from another. Each problem now has a ticket of its own.
+
+<Callout kind="warn">
+The queued parser fix closes only the first problem. The other two stay open after it ships.
+</Callout>
+
+## The problems
+
+<ProblemTable ticket={4471} {issues} />
+
+### `parser`: the shared parser reads every date month first
+
+A day-first tenant writes 7 April as 07/04. The parser reads it as 4 July, and the invite and the
+reminder go out on that day. It happens on every channel and for every tenant on file. This is
+the fix that is queued for #4471.
+
+### `hint`: the booking-v3 form tells day-first tenants to type the month first
+
+booking-v3 prints `MM/DD/YYYY` under its date field. The tenant's people type what the hint
+says, and the form reads the date the tenant's way, day first. The date flips before the parser
+sees it. It happens only through the form of the tenants that run booking-v3. The parser fix
+does not change it: the hint and the reading of the form must agree.
+
+### `one-day`: dates move by one day, not by a flip
+
+These reports do not show a month and a day swapped. A Tuesday shows as a Monday, every booking
+in June is one day off, and one meeting came out on two different days for two clients in two
+cities. One invite arrived before the booking was made. That points to time zones or summer
+time, not to the order of day and month. The desk noted these reports as a one-day move
+(`desk-notes.json`) but counted them under `parser`.
+
+## What the old table shows
+
+The table on #4471 files every report by its tenant, so the one-day reports count as `parser`.
+It is here so the two tables can be compared.
+
+<CauseTable ticket={4471} />
+
+## How to read a report
+
+- Read the body. The subject line and the intake tag are not the cause. Intake guesses the tag from the
+  reporter's browser, and the browser is often not the tenant's locale.
+- The export repeats some reports on overlapping pages. Count each report id once.
+- When the cause is not clear, keep the report on its own ticket and say why.
+
+<RenderStamp {signature} />
