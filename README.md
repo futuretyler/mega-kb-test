@@ -42,9 +42,11 @@ counts them with `src/lib/kb/problems.ts`, and each problem has its own issue:
 
 | Problem | Reports | Issue |
 |---|---|---|
-| `parser`: the shared parser reads day-first dates month first | 374 | [#1](https://github.com/futuretyler/mega-kb-test/issues/1) |
+| `parser`: the shared parser reads day-first dates month first | 379 | [#1](https://github.com/futuretyler/mega-kb-test/issues/1) |
 | `hint`: the booking-v3 form hint tells day-first tenants to type the month first | 33 | [#2](https://github.com/futuretyler/mega-kb-test/issues/2) |
 | `one-day`: dates move by one day, not by a day/month flip | 5 | [#3](https://github.com/futuretyler/mega-kb-test/issues/3) |
+
+The 5 one-day reports also count under `parser`, where the desk files them.
 
 The page as the desk sees it: `build/kb/incidents/4471-split/index.html`.
 Build it again with `npm install && npm run build`.

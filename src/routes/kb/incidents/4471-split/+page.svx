@@ -29,6 +29,9 @@ The queued parser fix closes only the first problem. The other two stay open aft
 
 <ProblemTable ticket={4471} {issues} />
 
+The one-day reports are also counted under the cause they are filed under, as the desk counts,
+so the rows add up to more than the number of reports.
+
 ### `parser`: the shared parser reads every date month first
 
 A day-first tenant writes 7 April as 07/04. The parser reads it as 4 July, and the invite and the
@@ -48,12 +51,13 @@ These reports do not show a month and a day swapped. A Tuesday shows as a Monday
 in June is one day off, and one meeting came out on two different days for two clients in two
 cities. One invite arrived before the booking was made. That points to time zones or summer
 time, not to the order of day and month. The desk noted these reports as a one-day move
-(`desk-notes.json`) but counted them under `parser`.
+(`desk-notes.json`). As the desk counts, they stay counted where they are filed, under
+`parser`, and they are counted again here.
 
 ## What the old table shows
 
-The table on #4471 files every report by its tenant, so the one-day reports count as `parser`.
-It is here so the two tables can be compared.
+The table on #4471 files every report by its tenant. It has no row for the one-day problem, and it
+marks `hint` as a cause with no ticket of its own. It is here so the two tables can be compared.
 
 <CauseTable ticket={4471} />
 

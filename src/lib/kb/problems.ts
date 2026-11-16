@@ -1,13 +1,14 @@
 // What a report is about, read from its body. causes.ts files a report by its tenant: that is
 // right for a flipped date, but a report that says its date moved by one day is not a flip.
-// The desk already marked those (desk-notes.json); here they get a problem of their own.
+// The desk marked those (desk-notes.json). They stay counted where they're filed, as the desk
+// counts, and are counted again under a problem of their own.
 import { causeOf, uniqueById, type Cause, type Report, type Tenant } from '#lib/kb/causes';
 
 export type Problem = Cause | 'one-day' | 'unplaced';
 
-export function problemOf(r: Report, t: Tenant | undefined, oneDayMove: readonly string[]): Problem {
-  if (oneDayMove.includes(r.id)) return 'one-day';
-  return causeOf(r, t) ?? 'unplaced';
+export function problemsOf(r: Report, t: Tenant | undefined, oneDayMove: readonly string[]): Problem[] {
+  const filed = causeOf(r, t) ?? 'unplaced';
+  return oneDayMove.includes(r.id) ? [filed, 'one-day'] : [filed];
 }
 
 export type ProblemGroup = {
@@ -32,8 +33,7 @@ export function groupByProblem(
   const merged = uniqueById(reports).filter((r) => r.mergedInto === ticket);
   const byProblem = new Map<Problem, Report[]>();
   for (const r of merged) {
-    const p = problemOf(r, tenantOf(r), oneDayMove);
-    byProblem.set(p, [...(byProblem.get(p) ?? []), r]);
+    for (const p of problemsOf(r, tenantOf(r), oneDayMove)) byProblem.set(p, [...(byProblem.get(p) ?? []), r]);
   }
   return [...byProblem.entries()]
     .map(([problem, rs]) => {
