@@ -4,7 +4,7 @@ title: '#4471 · three problems, not one'
 owner: Tyler Barstow
 status: open
 reviewed: 2026-11-16
-signature: Tyler Barstow
+signature: v1.eyJzdWIiOiIyNzciLCJhdWQiOiJjaGFsbGVuZ2U6d2hhdC1pdC1zaG93cyIsImlhdCI6MTc5NDg0ODQ3MCwiZXhwIjoxNzk0OTM0ODcwfQ.grf_A14Wdp1mHb12HpUz5_65qS58ifipGn7eWX63cL0
 ---
 
 <script>
